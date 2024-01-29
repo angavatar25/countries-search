@@ -30,6 +30,10 @@ const SearchPage = () => {
       return countryName.includes(inputtedKeyword);
     });
 
+    if(!e || e === '') {
+      setArrayOfCountry(countriesData);
+    }
+
     setArrayOfCountry(filteredCountries)
   };
   
