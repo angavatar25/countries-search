@@ -12,6 +12,7 @@ interface TFilterBy {
   show: boolean;
   onClickFilter: (continent: string) => void;
   onClickShow: (show: boolean) => void;
+  isDarkMode: boolean;
 };
 
 const FilterBy = (props: TFilterBy) => {
@@ -29,12 +30,12 @@ const FilterBy = (props: TFilterBy) => {
     <div className="relative max-w-60 w-full">
       <div
         onClick={handleShowFilter}
-        className="bg-blue-dark-blue cursor-pointer outline-none shadow-md capitalize leading-[50px] pl-6 text-white text-xs w-full"
+        className={`${props.isDarkMode ? 'bg-blue-dark-blue text-white' : 'bg-white text-blue-very-dark-blue-light-mode'} cursor-pointer outline-none transition rounded-md shadow-md capitalize leading-[50px] pl-6 text-xs w-full`}
       >
         {currentFilter ? currentFilter : 'Filter by Region'}
       </div>
       {props.show ? (
-        <div className="bg-blue-dark-blue absolute -bottom-60 p-6 w-full text-white grid gap-4">
+        <div className={`${props.isDarkMode ? 'bg-blue-dark-blue text-white' : 'bg-white text-blue-very-dark-blue-light-mode'} absolute transition rounded-md -bottom-60 p-6 w-full grid gap-4`}>
           {continentData.map(continent => (
             <p
               key={`continent-${continent.id}`}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CardCountry from "../components/CardCountry";
 import FilterBy from "../components/FilterBy";
 import InputSearch from "../components/InputSearch";
@@ -6,14 +6,19 @@ import { countryData as countriesData } from "../countryData";
 import NavBar from "../components/NavBar";
 
 const SearchPage = () => {
-  const currentDarkMode = localStorage.getItem('weatherDarkMode') === 'true';
-
   const [searchKeyword, setSearchKeyword] = useState('');
 
   const [arrayOfCountry, setArrayOfCountry] = useState(countriesData);
 
   const [showFilter, setShowFilter] = useState(false);
-  const [currentMode] = useState(currentDarkMode);
+  const [currentDarkMode, setCurrentDarkMode] = useState(false);
+
+  const handleDarkNightMode = () => {
+    const newDarkMode = !currentDarkMode;
+    setCurrentDarkMode(newDarkMode);
+
+    localStorage.setItem('weatherDarkMode', newDarkMode.toString());
+  }
 
   const handleSearchCountries = (e: string) => {
     setSearchKeyword(e);
@@ -37,24 +42,36 @@ const SearchPage = () => {
     });
 
     setArrayOfCountry(filteredCountries);
-  }
+    setShowFilter(!showFilter);
+  };
+
+  useEffect(() => {
+    const darkMode = localStorage.getItem('weatherDarkMode');
+
+    if (darkMode) {
+      setCurrentDarkMode(darkMode === 'true');
+    }
+  }, [])
 
   return (
     <>
       <NavBar
-        isDarkMode={currentMode}
+        isDarkMode={currentDarkMode}
+        handleDarkMode={handleDarkNightMode}
       />
-      <div className="bg-blue-very-dark-blue-dark-mode w-full min-h-screen px-10 py-6 mt-20">
+      <div className={`${currentDarkMode ? 'bg-blue-very-dark-blue-dark-mode' : 'bg-white'} transition w-full min-h-screen px-10 py-6 mt-20`}>
         <div className="flex justify-between">
           <InputSearch
             placeholder="Search for a country..."
             onChange={handleSearchCountries}
             value={searchKeyword}
+            isDarkMode={currentDarkMode}
           />
           <FilterBy
             onClickFilter={onClickFilter}
             onClickShow={() => setShowFilter(!showFilter)}
             show={showFilter}
+            isDarkMode={currentDarkMode}
           />
         </div>
         <div className="mt-10 gap-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
@@ -66,6 +83,7 @@ const SearchPage = () => {
               region={country.region}
               capital={country?.capital}
               flag={country.flag}
+              isDarkMode={currentDarkMode}
             />
           ))}
         </div>

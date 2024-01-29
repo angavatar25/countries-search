@@ -4,12 +4,13 @@ interface TCountryData {
   region: string,
   capital: string | undefined,
   flag: string,
+  isDarkMode: boolean;
 }
 
 const CardCountry = (props: TCountryData) => {
   return (
     <>
-      <div className="bg-blue-dark-blue text-white">
+      <div className={`${props.isDarkMode ? 'bg-blue-dark-blue text-white' : 'bg-white text-blue-very-dark-blue-light-mode shadow-md transition'}`}>
         <div className="h-52">
           <img
             className="w-full object-cover h-full"
