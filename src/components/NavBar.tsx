@@ -14,7 +14,7 @@ const NavBar = (props: TNavBar) => {
           onClick={props.handleDarkMode}
           className="bg-transparent outline-none border-none"
         >
-          {props.isDarkMode ? 'Dark mode' : 'Light mode'}
+          {props.isDarkMode ? 'Light mode' : 'Dark mode'}
         </button>
       </div>
     </div>
