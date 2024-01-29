@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 interface TNavBar {
   isDarkMode: boolean;
   handleDarkMode: () => void;
